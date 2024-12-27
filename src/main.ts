@@ -16,11 +16,13 @@ import Dialog from 'primevue/dialog'
 import Tag from 'primevue/tag'
 
 import { VueQueryPlugin } from '@tanstack/vue-query'
+import piniaPersistedState from 'pinia-plugin-persistedstate'
 
 import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
+const pinia = createPinia()
 
 app.use(PrimeVue, {
   theme: {
@@ -37,7 +39,9 @@ app.component('Paginator', Paginator)
 app.component('Dialog', Dialog)
 app.component('Tag', Tag)
 
-app.use(createPinia())
+pinia.use(piniaPersistedState)
+app.use(pinia)
+
 app.use(VueQueryPlugin)
 app.use(router)
 

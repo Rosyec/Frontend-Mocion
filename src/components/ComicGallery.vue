@@ -4,13 +4,16 @@ import PromoSlider from './PromoSlider.vue'
 import $axios from '../axios/config'
 import type { Issue, ResponseApi } from '@/axios/types'
 import { useQuery } from '@tanstack/vue-query'
+import { useIssuesStore } from '@/stores/issues'
+import { useRouter } from 'vue-router'
+
+const issuesStore = useIssuesStore()
+const router = useRouter()
 
 const viewMode = ref('grid')
 const selectedGenre = ref(null)
 const currentPage = ref(1)
 const itemsPerPage = 8
-const dialogVisible = ref(false)
-const selectedComic = ref(null)
 
 const genres = [
   { name: 'Nombre', code: 'characteres' },
@@ -37,14 +40,14 @@ const onPageChange = (event: { page: number }) => {
   currentPage.value = event.page + 1
 }
 
-const showComicDetails = (comic: any) => {
-  selectedComic.value = comic
-  dialogVisible.value = true
+const showComicDetails = (comic: number) => {
+  router.push(`/detail/${comic}`)
 }
 
 const { isPending, isFetching, isError, data, error, isLoading } = useQuery({
   queryKey: ['getIssues'],
   queryFn: getIssues,
+  initialData: issuesStore.items,
 })
 
 watch(
@@ -52,6 +55,7 @@ watch(
   (issues) => {
     if (issues) {
       comics.value = issues
+      issuesStore.setItems(issues)
     }
   },
   { immediate: true },
@@ -107,7 +111,7 @@ watch(
           <p style="flex-grow: 1; margin: 1rem 0">{{ comic.deck }}</p>
         </template> -->
         <template #footer>
-          <Button label="Leer más" icon="pi pi-book" @click="showComicDetails(comic)" />
+          <Button label="Leer más" icon="pi pi-book" @click="showComicDetails(comic.id)" />
         </template>
       </Card>
     </div>
