@@ -13,9 +13,8 @@ const menuItems = [
 
 <template>
   <header>
-    <Menubar :model="menuItems">
+    <Menubar class="fixed z-5" style="width: 100%" :model="menuItems">
       <template #start>
-        <!-- <span class="pi pi-book mr-2" style="font-size: 2rem"></span> -->
         <h1 class="site-title text-primary">ABC Comics</h1>
       </template>
     </Menubar>
