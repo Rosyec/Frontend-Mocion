@@ -48,7 +48,7 @@ const showComicDetails = (comic: number) => {
   router.push(`/detail/${comic}`)
 }
 
-const { isPending, isFetching, isError, data, isLoading } = useQuery({
+const { isFetching, isError, data, isStale } = useQuery({
   queryKey: computed(() => ['getIssues', sort.value]),
   queryFn: () => getIssues(sort.value),
   initialData: () => issuesStore.items,
@@ -126,7 +126,7 @@ watch(
     </div>
 
     <div v-if="viewMode === 'list'" class="comic-list">
-      <DataView :value="paginatedComics">
+      <DataView :value="paginatedComics" dataKey="">
         <template #list="slotProps">
           <div class="grid grid-nogutter">
             <div v-for="(item, index) in slotProps.items" :key="index" class="col-12">
