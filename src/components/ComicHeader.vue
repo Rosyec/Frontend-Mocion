@@ -1,17 +1,12 @@
 <script setup lang="ts">
-const menuItems = [
-  { label: 'Inicio', icon: 'pi pi-home' },
-  { label: 'Géneros', icon: 'pi pi-book' },
-  { label: 'Colecciones', icon: 'pi pi-folder' },
-  { label: 'Novedades', icon: 'pi pi-star' },
-]
+const menuItems = [{ label: 'Inicio' }]
 </script>
 
 <template>
   <header>
     <Menubar :model="menuItems">
       <template #start>
-        <h1 class="site-title">ComicVerse</h1>
+        <h1 class="site-title">ABC Comics</h1>
       </template>
     </Menubar>
   </header>
