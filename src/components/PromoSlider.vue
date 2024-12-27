@@ -5,27 +5,27 @@ const promos = [
   {
     id: 1,
     image: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=1200',
-    title: 'Nuevos Lanzamientos'
+    title: 'Nuevos Lanzamientos',
   },
   {
     id: 2,
     image: 'https://images.unsplash.com/photo-1618519764620-7403abdbdfe9?w=1200',
-    title: 'Colección Especial'
+    title: 'Colección Especial',
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1623276527153-fa38c1616b05?w=1200',
-    title: 'Edición Limitada'
-  }
+    image: 'https://images.unsplash.com/photo-1628426912481-b66c067fdf7a?w=1200',
+    title: 'Edición Limitada',
+  },
 ]
 </script>
 
 <template>
   <div class="promo-slider">
-    <Carousel 
-      :value="promos" 
-      :numVisible="1" 
-      :numScroll="1" 
+    <Carousel
+      :value="promos"
+      :numVisible="1"
+      :numScroll="1"
       :autoplayInterval="5000"
       :circular="true"
     >

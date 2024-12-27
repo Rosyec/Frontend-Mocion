@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import PromoSlider from './PromoSlider.vue'
+import $axios from '../axios/config'
+import type { Issue, ResponseApi } from '@/axios/types'
+
+onMounted(() => {
+  getDefault('characters')
+})
 
 const viewMode = ref('grid')
 const selectedGenre = ref(null)
@@ -16,22 +22,19 @@ const genres = [
   { name: 'Creators', code: 'creators' },
 ]
 
-const comics = [
-  {
-    id: 1,
-    title: 'Cosmic Adventures',
-    genre: 'Ciencia Ficción',
-    cover: 'https://images.unsplash.com/photo-1635863138275-d9b33299680b?w=300',
-    description: 'Una aventura épica a través del espacio.',
-  },
-]
+const comics = ref<Issue[]>([])
 
-const totalPages = computed(() => Math.ceil(comics.length / itemsPerPage))
+const getDefault = async (type: string) => {
+  const { data } = await $axios.get<ResponseApi>(`/getComicsBy?type=${type}`)
+  comics.value = data.results
+}
+
+const totalPages = computed(() => Math.ceil(comics.value.length / itemsPerPage))
 
 const paginatedComics = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
-  return comics.slice(start, end)
+  return comics.value.slice(start, end)
 })
 
 const onPageChange = (event: { page: number }) => {
@@ -53,7 +56,7 @@ const showComicDetails = (comic: any) => {
         v-model="selectedGenre"
         :options="genres"
         optionLabel="name"
-        placeholder="Seleccionar por"
+        placeholder="Filtrar por"
         class="w-full md:w-14rem"
       />
       <div class="view-toggle">
@@ -76,19 +79,18 @@ const showComicDetails = (comic: any) => {
         <template #header>
           <img
             v-if="viewMode === 'grid'"
-            :src="comic.cover"
-            :alt="comic.title"
-            style="width: 100%; height: 200px; object-fit: cover"
+            :src="comic.image.medium_url"
+            :alt="comic.name || ''"
+            style="width: 100%; height: 200px; object-fit: contain"
           />
         </template>
         <template #title>
-          <h3 style="margin: 0; font-size: 1.25rem">{{ comic.title }}</h3>
+          <h3 style="margin: 0; font-size: 1.25rem">
+            {{ comic.name === null ? 'Sin título' : comic.name }}
+          </h3>
         </template>
         <template #subtitle>
-          <Tag :value="comic.genre" severity="info" />
-        </template>
-        <template #content>
-          <p style="flex-grow: 1; margin: 1rem 0">{{ comic.description }}</p>
+          <Tag :value="comic.cover_date" severity="info" />
         </template>
         <template #footer>
           <Button label="Leer más" icon="pi pi-book" @click="showComicDetails(comic)" />
