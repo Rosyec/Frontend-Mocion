@@ -1,40 +1,29 @@
-# frontend vue
+# Frontend Vue
 
-This template should help get you started developing with Vue 3 in Vite.
+Este documento te ayudara a iniciar el proyecto de manera correcta, sigues los pasos descritos abajo.
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Configuración del proyecto
 
 ```sh
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+### Compilar para desarrollo
 
 ```sh
-pnpm dev
+pnpm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Compilar para producción
 
 ```sh
-pnpm build
+pnpm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Variables de entorno
+
+Asegurate de cambiar la variable **VITE_URL_API** con el siguiente valor (No olvides levantar primero el backend):
 
 ```sh
-pnpm lint
+http://localhost:3000/comicVine
 ```
-"# Frontend-Mocion" 
