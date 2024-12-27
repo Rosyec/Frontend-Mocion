@@ -1,5 +1,14 @@
 <script setup lang="ts">
-const menuItems = [{ label: 'Inicio' }]
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const menuItems = [
+  {
+    label: 'Inicio',
+    command: () => router.push('/'),
+  },
+]
 </script>
 
 <template>

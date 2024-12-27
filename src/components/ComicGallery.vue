@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import PromoSlider from './PromoSlider.vue'
 import $axios from '../axios/config'
 import type { Issue, ResponseApi } from '@/axios/types'
-
-onMounted(() => {
-  getDefault('characters')
-})
+import { useQuery } from '@tanstack/vue-query'
 
 const viewMode = ref('grid')
 const selectedGenre = ref(null)
@@ -16,17 +13,16 @@ const dialogVisible = ref(false)
 const selectedComic = ref(null)
 
 const genres = [
-  { name: 'Characteres', code: 'characteres' },
+  { name: 'Nombre', code: 'characteres' },
   { name: 'Issues', code: 'issues' },
   { name: 'Series', code: 'series' },
-  { name: 'Creators', code: 'creators' },
 ]
 
 const comics = ref<Issue[]>([])
 
-const getDefault = async (type: string) => {
-  const { data } = await $axios.get<ResponseApi>(`/getComicsBy?type=${type}`)
-  comics.value = data.results
+const getIssues = async () => {
+  const { data } = await $axios.get<ResponseApi>(`/getComics`)
+  return data.results
 }
 
 const totalPages = computed(() => Math.ceil(comics.value.length / itemsPerPage))
@@ -45,6 +41,21 @@ const showComicDetails = (comic: any) => {
   selectedComic.value = comic
   dialogVisible.value = true
 }
+
+const { isPending, isFetching, isError, data, error, isLoading } = useQuery({
+  queryKey: ['getIssues'],
+  queryFn: getIssues,
+})
+
+watch(
+  () => data.value,
+  (issues) => {
+    if (issues) {
+      comics.value = issues
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -92,6 +103,9 @@ const showComicDetails = (comic: any) => {
         <template #subtitle>
           <Tag :value="comic.cover_date" severity="info" />
         </template>
+        <!-- <template #content>
+          <p style="flex-grow: 1; margin: 1rem 0">{{ comic.deck }}</p>
+        </template> -->
         <template #footer>
           <Button label="Leer más" icon="pi pi-book" @click="showComicDetails(comic)" />
         </template>
