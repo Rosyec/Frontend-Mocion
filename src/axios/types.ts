@@ -68,3 +68,8 @@ export interface Volume {
   name: string
   site_detail_url: string
 }
+
+export interface Genre {
+  name: string
+  code: string
+}

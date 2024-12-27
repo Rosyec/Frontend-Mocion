@@ -15,7 +15,8 @@ const menuItems = [
   <header>
     <Menubar :model="menuItems">
       <template #start>
-        <h1 class="site-title">ABC Comics</h1>
+        <span class="pi pi-book mr-2 text-primary" style="font-size: 2rem"></span>
+        <h1 class="site-title text-primary">ABC Comics</h1>
       </template>
     </Menubar>
   </header>

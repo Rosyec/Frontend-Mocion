@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue'
 import PromoSlider from './PromoSlider.vue'
 import $axios from '../axios/config'
-import type { Issue, ResponseApi } from '@/axios/types'
+import type { Genre, Issue, ResponseApi } from '@/axios/types'
 import { useQuery } from '@tanstack/vue-query'
 import { useIssuesStore } from '@/stores/issues'
 import { useRouter } from 'vue-router'
@@ -11,20 +11,28 @@ const issuesStore = useIssuesStore()
 const router = useRouter()
 
 const viewMode = ref('grid')
-const selectedGenre = ref(null)
+const selectedGenre = ref<Genre | null>(issuesStore.genre)
 const currentPage = ref(1)
 const itemsPerPage = 8
 
-const genres = [{ name: 'Nombre', code: 'characteres' }]
+const genres = [
+  { name: 'Nombre', code: 'name' },
+  { name: 'Fecha de agregación', code: 'date_added' },
+  { name: 'Fecha de la portada', code: 'cover_date' },
+]
 
 const comics = ref<Issue[]>([])
 
-const getIssues = async () => {
-  const { data } = await $axios.get<ResponseApi>(`/getComics`)
+const getIssues = async (sort?: string) => {
+  let url = '/getComics'
+  if (sort !== undefined) {
+    url += `?sort=${sort}:desc`
+  }
+  const { data } = await $axios.get<ResponseApi>(`${url}`)
   return data.results
 }
 
-const totalPages = computed(() => Math.ceil(comics.value.length / itemsPerPage))
+const sort = computed(() => selectedGenre.value?.code || undefined)
 
 const paginatedComics = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
@@ -40,10 +48,10 @@ const showComicDetails = (comic: number) => {
   router.push(`/detail/${comic}`)
 }
 
-const { isPending, isFetching, isError, data, error, isLoading } = useQuery({
-  queryKey: ['getIssues'],
-  queryFn: getIssues,
-  initialData: issuesStore.items,
+const { isPending, isFetching, isError, data, isLoading } = useQuery({
+  queryKey: computed(() => ['getIssues', sort.value]),
+  queryFn: () => getIssues(sort.value),
+  initialData: () => issuesStore.items,
 })
 
 watch(
@@ -56,6 +64,14 @@ watch(
   },
   { immediate: true },
 )
+
+watch(
+  () => selectedGenre.value,
+  (genre) => {
+    issuesStore.setGenre(genre)
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -64,10 +80,11 @@ watch(
 
     <div class="controls-comics">
       <Dropdown
+        showClear
         v-model="selectedGenre"
         :options="genres"
         optionLabel="name"
-        placeholder="Filtrar por"
+        placeholder="Ordenar por"
         class="w-full md:w-14rem"
       />
       <div class="view-toggle">

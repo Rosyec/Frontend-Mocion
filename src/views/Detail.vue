@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ImageTags, type Issue, type ResponseApi, type ResponseApiById } from '@/axios/types'
-import $axios from '../axios/config'
+import { ImageTags, type Issue } from '@/axios/types'
 import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
+import { useIssuesStore } from '@/stores/issues'
 
 const route = useRoute()
+const issuesStore = useIssuesStore()
 
 onMounted(() => {
   if (route.params.id) {
@@ -49,8 +50,10 @@ const comic = ref<Issue>({
 })
 
 const getIssue = async (id: number) => {
-  const { data } = await $axios.get<ResponseApiById>(`/getComicById?id=${id}`)
-  comic.value = data.results
+  const result = issuesStore.items.find((item) => item.id === id)
+  if (result !== undefined) {
+    comic.value = result
+  }
 }
 </script>
 <template>
