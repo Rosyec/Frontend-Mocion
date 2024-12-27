@@ -6,6 +6,7 @@ import 'primeicons/primeicons.css'
 import Aura from '@primevue/themes/aura'
 
 import Menubar from 'primevue/menubar'
+import Avatar from 'primevue/avatar'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'
@@ -24,6 +25,7 @@ app.use(PrimeVue, {
     preset: Aura,
   },
 })
+app.component('Avatar', Avatar)
 app.component('Menubar', Menubar)
 app.component('Card', Card)
 app.component('Button', Button)

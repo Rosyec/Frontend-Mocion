@@ -10,10 +10,10 @@ const dialogVisible = ref(false)
 const selectedComic = ref(null)
 
 const genres = [
-  { name: 'Todos', code: 'ALL' },
-  { name: 'Acción', code: 'ACTION' },
-  { name: 'Aventura', code: 'ADVENTURE' },
-  { name: 'Ciencia Ficción', code: 'SCIFI' },
+  { name: 'Characteres', code: 'characteres' },
+  { name: 'Issues', code: 'issues' },
+  { name: 'Series', code: 'series' },
+  { name: 'Creators', code: 'creators' },
 ]
 
 const comics = [
@@ -23,55 +23,6 @@ const comics = [
     genre: 'Ciencia Ficción',
     cover: 'https://images.unsplash.com/photo-1635863138275-d9b33299680b?w=300',
     description: 'Una aventura épica a través del espacio.',
-  },
-  {
-    id: 2,
-    title: 'Dark Knights',
-    genre: 'Acción',
-    cover: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=300',
-    description: 'La historia de justicieros en una ciudad corrupta.',
-  },
-  {
-    id: 3,
-    title: 'Magic Realms',
-    genre: 'Fantasía',
-    cover: 'https://images.unsplash.com/photo-1618519764620-7403abdbdfe9?w=300',
-    description: 'Un mundo de magia y misterio.',
-  },
-  {
-    id: 4,
-    title: 'Tech Warriors',
-    genre: 'Ciencia Ficción',
-    cover: 'https://images.unsplash.com/photo-1623276527153-fa38c1616b05?w=300',
-    description: 'La batalla por el futuro de la humanidad.',
-  },
-  {
-    id: 5,
-    title: 'Cosmic Adventures II',
-    genre: 'Ciencia Ficción',
-    cover: 'https://images.unsplash.com/photo-1635863138275-d9b33299680b?w=300',
-    description: 'Una aventura épica a través del espacio.',
-  },
-  {
-    id: 6,
-    title: 'Dark Knights Returns',
-    genre: 'Acción',
-    cover: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=300',
-    description: 'La historia de justicieros en una ciudad corrupta.',
-  },
-  {
-    id: 7,
-    title: 'Magic Realms II',
-    genre: 'Fantasía',
-    cover: 'https://images.unsplash.com/photo-1618519764620-7403abdbdfe9?w=300',
-    description: 'Un mundo de magia y misterio.',
-  },
-  {
-    id: 8,
-    title: 'Tech Warriors Elite',
-    genre: 'Ciencia Ficción',
-    cover: 'https://images.unsplash.com/photo-1623276527153-fa38c1616b05?w=300',
-    description: 'La batalla por el futuro de la humanidad.',
   },
 ]
 
@@ -97,15 +48,12 @@ const showComicDetails = (comic: any) => {
   <div class="comic-container">
     <PromoSlider />
 
-    <div
-      class="controls"
-      style="padding: 1rem; display: flex; justify-content: space-between; align-items: center"
-    >
+    <div class="controls-comics">
       <Dropdown
         v-model="selectedGenre"
         :options="genres"
         optionLabel="name"
-        placeholder="Seleccionar Género"
+        placeholder="Seleccionar por"
         class="w-full md:w-14rem"
       />
       <div class="view-toggle">
@@ -127,6 +75,7 @@ const showComicDetails = (comic: any) => {
       <Card v-for="comic in paginatedComics" :key="comic.id">
         <template #header>
           <img
+            v-if="viewMode === 'grid'"
             :src="comic.cover"
             :alt="comic.title"
             style="width: 100%; height: 200px; object-fit: cover"

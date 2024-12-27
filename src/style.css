@@ -24,10 +24,6 @@ body {
   flex-direction: column;
 }
 
-main {
-  flex: 1 0 auto;
-}
-
 /* Responsive Grid */
 .comic-grid {
   display: grid;
@@ -83,7 +79,7 @@ main {
 }
 
 /* Controls */
-.controls {
+.controls-comics {
   padding: 1rem;
   margin: 1rem auto;
   max-width: 1400px;
