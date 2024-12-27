@@ -1,0 +1,29 @@
+:root {
+  --primary-color: #64748b;
+  --secondary-color: #94a3b8;
+  --background-color: #f8fafc;
+  --surface-color: #ffffff;
+  --text-color: #1e293b;
+  --accent-color: #0ea5e9;
+  --surface-200: #e2e8f0;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: var(--text-color);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-container {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
