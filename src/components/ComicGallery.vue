@@ -15,11 +15,7 @@ const selectedGenre = ref(null)
 const currentPage = ref(1)
 const itemsPerPage = 8
 
-const genres = [
-  { name: 'Nombre', code: 'characteres' },
-  { name: 'Issues', code: 'issues' },
-  { name: 'Series', code: 'series' },
-]
+const genres = [{ name: 'Nombre', code: 'characteres' }]
 
 const comics = ref<Issue[]>([])
 
@@ -89,11 +85,10 @@ watch(
       </div>
     </div>
 
-    <div :class="viewMode === 'grid' ? 'comic-grid' : 'comic-list'">
+    <div v-if="viewMode === 'grid'" class="comic-grid">
       <Card v-for="comic in paginatedComics" :key="comic.id">
         <template #header>
           <img
-            v-if="viewMode === 'grid'"
             :src="comic.image.medium_url"
             :alt="comic.name || ''"
             style="width: 100%; height: 200px; object-fit: contain"
@@ -107,13 +102,50 @@ watch(
         <template #subtitle>
           <Tag :value="comic.cover_date" severity="info" />
         </template>
-        <!-- <template #content>
-          <p style="flex-grow: 1; margin: 1rem 0">{{ comic.deck }}</p>
-        </template> -->
         <template #footer>
           <Button label="Leer más" icon="pi pi-book" @click="showComicDetails(comic.id)" />
         </template>
       </Card>
+    </div>
+
+    <div v-if="viewMode === 'list'" class="comic-list">
+      <DataView :value="paginatedComics">
+        <template #list="slotProps">
+          <div class="grid grid-nogutter">
+            <div v-for="(item, index) in slotProps.items" :key="index" class="col-12">
+              <div
+                class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3"
+                :class="{ 'border-top-1 surface-border': index !== 0 }"
+              >
+                <div class="col relative align-items-center flex gap-2">
+                  <img
+                    :src="item.image.thumb_url"
+                    :alt="item.name || ''"
+                    style="object-fit: contain"
+                  />
+                  <div>
+                    <h3>{{ item.name === null ? 'Sin título' : item.name }}</h3>
+                    <Tag :value="item.cover_date" severity="info" />
+                  </div>
+                </div>
+                <div
+                  class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4"
+                >
+                  <div class="col"></div>
+                  <div class="flex flex-column md:align-items-end gap-5">
+                    <Button
+                      @click="showComicDetails(item.id)"
+                      label="Leer más"
+                      icon="pi pi-book"
+                      aria-label="Bookmark"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+      </DataView>
     </div>
 
     <div class="pagination-container">

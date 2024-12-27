@@ -14,6 +14,7 @@ import Carousel from 'primevue/carousel'
 import Paginator from 'primevue/paginator'
 import Dialog from 'primevue/dialog'
 import Tag from 'primevue/tag'
+import DataView from 'primevue/dataview'
 
 import { VueQueryPlugin } from '@tanstack/vue-query'
 import piniaPersistedState from 'pinia-plugin-persistedstate'
@@ -30,6 +31,7 @@ app.use(PrimeVue, {
   },
 })
 app.component('Avatar', Avatar)
+app.component('DataView', DataView)
 app.component('Menubar', Menubar)
 app.component('Card', Card)
 app.component('Button', Button)

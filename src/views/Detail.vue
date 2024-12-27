@@ -51,7 +51,6 @@ const comic = ref<Issue>({
 const getIssue = async (id: number) => {
   const { data } = await $axios.get<ResponseApiById>(`/getComicById?id=${id}`)
   comic.value = data.results
-  // return data.results
 }
 </script>
 <template>
@@ -66,13 +65,11 @@ const getIssue = async (id: number) => {
         <template #title>
           {{ comic.name === null ? 'Sin título' : comic.name }}
         </template>
-        <!-- <template #subtitle> By {{ comic?.id }} </template> -->
         <template #content>
           <div class="comic-details">
             <div v-html="comic.description"></div>
             <Divider />
             <div class="info-grid">
-              <!-- <div class="info-item"><strong>Publisher:</strong> {{ comic?.aliases }}</div> -->
               <div class="info-item"><strong>Year added:</strong> {{ comic.date_added }}</div>
               <div class="info-item"><strong>Volume:</strong> {{ comic.volume.name }}/5</div>
             </div>
