@@ -4,17 +4,17 @@ import { ref } from 'vue'
 const promos = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=1200',
+    image: 'slider1.png',
     title: 'Nuevos Lanzamientos',
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1618519764620-7403abdbdfe9?w=1200',
+    image: 'slider2.png',
     title: 'Colección Especial',
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1628426912481-b66c067fdf7a?w=1200',
+    image: 'slider3.png',
     title: 'Edición Limitada',
   },
 ]

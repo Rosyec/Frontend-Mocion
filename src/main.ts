@@ -15,6 +15,7 @@ import Paginator from 'primevue/paginator'
 import Dialog from 'primevue/dialog'
 import Tag from 'primevue/tag'
 import DataView from 'primevue/dataview'
+import ProgressSpinner from 'primevue/progressspinner'
 
 import { VueQueryPlugin } from '@tanstack/vue-query'
 import piniaPersistedState from 'pinia-plugin-persistedstate'
@@ -31,6 +32,7 @@ app.use(PrimeVue, {
   },
 })
 app.component('Avatar', Avatar)
+app.component('ProgressSpinner', ProgressSpinner)
 app.component('DataView', DataView)
 app.component('Menubar', Menubar)
 app.component('Card', Card)
